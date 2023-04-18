@@ -1,5 +1,7 @@
 package ru.mmcs.openglnextplayground
 
+import android.app.Application
+import android.content.Context
 import android.opengl.GLES30
 import android.util.Log
 import ru.mmcs.openglrotationplayground.Point
@@ -7,54 +9,26 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.FloatBuffer
 
-class Cube(var center: Point, val radius: Float, val color: FloatArray = floatArrayOf(0.7f, 1.0f, 0.0f, 1.0f)) {
-    private val vertexShader = """#version 300 es
-        in vec3 vPosition;
-        uniform mat4 uMVPMatrix;
-        
-        uniform vec3 object_center;
-        uniform vec3 this_center;
-        uniform float world_angle;
-        uniform float object_angle;
-        uniform float this_angle;
-        
-        void main() {        
-            vec3 position = (vPosition - this_center) * mat3(
-                cos(this_angle), 0, sin(this_angle),
-                0, 1, 0,
-                -sin(this_angle), 0, cos(this_angle)
-            ) + this_center;
-            
-            position = (position - object_center) * mat3(
-                cos(object_angle), 0, sin(object_angle),
-                0, 1, 0,
-                -sin(object_angle), 0, cos(object_angle)
-            ) + object_center;
-            
-            position = position * mat3(
-                cos(world_angle), 0, sin(world_angle),
-                0, 1, 0,
-                -sin(world_angle), 0, cos(world_angle)
-            );
-            
-            gl_Position = uMVPMatrix * vec4(position, 1.0);
-        }
-    """.trimIndent()
+class Cube(context: Context, var center: Point, val radius: Float, val color: FloatArray = floatArrayOf(0.7f, 1.0f, 0.0f, 1.0f)) {
+    private val vertexShader: String
 
-    private val fragmentShader = """#version 300 es
-        precision mediump float;
-        uniform vec4 vColor;
-        
-        out vec4 fragColor;
-        void main() {
-            fragColor = vColor;
-        }
-    """.trimIndent()
+    private val fragmentShader: String
 
     private var glProgramId: Int
 
     init {
-        Log.d("GL_DEBUG", "Shader compilation started")
+//        Log.d("GL_DEBUG", "${context.assets.list("shaders")?.joinToString(" ") { s -> s }}")
+
+        fragmentShader = context.assets
+            .open("shaders/rotation_object.frag")
+            .bufferedReader().use {
+                it.readText()
+            }
+        vertexShader = context.assets
+            .open("shaders/rotation_object.vert")
+            .bufferedReader().use {
+                it.readText()
+            }
         val vertexShaderId = GLRenderer.loadShader(GLES30.GL_VERTEX_SHADER, vertexShader)
         val fragmentShaderId = GLRenderer.loadShader(GLES30.GL_FRAGMENT_SHADER, fragmentShader)
 

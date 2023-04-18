@@ -16,7 +16,7 @@ class OpenGLView(context: Context, attributes: AttributeSet) : GLSurfaceView(con
 
     init{
         setEGLContextClientVersion(3)
-        renderer = GLRenderer()
+        renderer = GLRenderer(context)
         setRenderer(renderer)
         renderMode = GLSurfaceView.RENDERMODE_WHEN_DIRTY
     }

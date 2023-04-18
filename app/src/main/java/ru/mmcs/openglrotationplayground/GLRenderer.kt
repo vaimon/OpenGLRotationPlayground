@@ -1,5 +1,6 @@
 package ru.mmcs.openglnextplayground
 
+import android.content.Context
 import android.opengl.GLES30
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix
@@ -8,7 +9,7 @@ import ru.mmcs.openglrotationplayground.Point
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
-class GLRenderer : GLSurfaceView.Renderer {
+class GLRenderer(private val context: Context) : GLSurfaceView.Renderer {
     private val sceneShapes = mutableListOf<Cube>()
 
     private val vpMatrix = FloatArray(16)
@@ -18,10 +19,10 @@ class GLRenderer : GLSurfaceView.Renderer {
 
     override fun onSurfaceCreated(p0: GL10?, p1: EGLConfig?) {
         GLES30.glClearColor(0.0f, 0.0f, 0.0f, 1.0f)
-        sceneShapes.add(Cube(Point(1f,-0.5f,0f),0.25f, floatArrayOf(0.97f,0.84f,0.12f,1f)))
-        sceneShapes.add(Cube(Point(1f,0f,0f),0.25f, floatArrayOf(0.97f,0.84f,0.12f,1f)))
-        sceneShapes.add(Cube(Point(0.5f,-0.5f,0f),0.25f, floatArrayOf(0.64f,0.64f,0.69f,1f)))
-        sceneShapes.add(Cube(Point(1.5f,-0.5f,0f),0.25f, floatArrayOf(0.78f,0.43f,0f,1f)))
+        sceneShapes.add(Cube(context, Point(1f,-0.5f,0f),0.25f, floatArrayOf(0.97f,0.84f,0.12f,1f)))
+        sceneShapes.add(Cube(context, Point(1f,0f,0f),0.25f, floatArrayOf(0.97f,0.84f,0.12f,1f)))
+        sceneShapes.add(Cube(context, Point(0.5f,-0.5f,0f),0.25f, floatArrayOf(0.64f,0.64f,0.69f,1f)))
+        sceneShapes.add(Cube(context, Point(1.5f,-0.5f,0f),0.25f, floatArrayOf(0.78f,0.43f,0f,1f)))
     }
 
     override fun onSurfaceChanged(p0: GL10?, width: Int, height: Int) {
