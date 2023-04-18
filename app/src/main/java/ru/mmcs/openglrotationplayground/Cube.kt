@@ -147,7 +147,7 @@ class Cube(var center: Point, val radius: Float, val color: FloatArray = floatAr
         thisCenterHandle = GLES30.glGetUniformLocation(glProgramId, "this_center")
         GLES30.glUniform3fv(thisCenterHandle, 1, center.toFloatArray(), 0)
 
-        Log.d("OPENGL", "$center $objectCenter $worldCenter")
+//        Log.d("OPENGL", "$center $objectCenter $worldCenter")
 
         GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, vertexCount)
         GLES30.glDisableVertexAttribArray(vPositionHandle)

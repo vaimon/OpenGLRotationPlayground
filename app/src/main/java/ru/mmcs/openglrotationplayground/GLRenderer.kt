@@ -54,6 +54,10 @@ class GLRenderer : GLSurfaceView.Renderer {
 
     companion object {
         var rotationCenter = RotationCenter.World
+        var shadingMode = ShadingMode.Phong
+        var lightingMode = LightingMode.Phong
+        var attenuation = 0.0f
+        var lightStrength = 0.0f
 
         fun loadShader(type: Int, shaderCode: String): Int {
             val id = GLES30.glCreateShader(type).also { shader ->

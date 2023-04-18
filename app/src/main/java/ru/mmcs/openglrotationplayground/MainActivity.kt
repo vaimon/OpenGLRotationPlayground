@@ -1,22 +1,24 @@
 package ru.mmcs.openglrotationplayground
 
-import android.content.res.ColorStateList
-import android.content.res.Resources
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
-import android.widget.Button
-import androidx.core.content.res.ResourcesCompat
-import ru.mmcs.openglnextplayground.GLRenderer
-import ru.mmcs.openglnextplayground.OpenGLView
-import ru.mmcs.openglnextplayground.RotationCenter
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.SeekBar
+import android.widget.Spinner
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SwitchCompat
+import ru.mmcs.openglnextplayground.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var glView: OpenGLView
-    private lateinit var btnObject: Button
-    private lateinit var btnScene: Button
-    private lateinit var btnCube: Button
+    private lateinit var spinner: Spinner
+    private lateinit var sbAttenuation: SeekBar
+    private lateinit var sbStrength: SeekBar
+    private lateinit var switchShading: SwitchCompat
+    private lateinit var switchLighting: SwitchCompat
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,32 +28,65 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         glView = findViewById(R.id.glView)
+        spinner = findViewById(R.id.spinner)
+        sbAttenuation = findViewById(R.id.seekAttenuation)
+        sbStrength = findViewById(R.id.seekOriginStrength)
+        switchShading = findViewById(R.id.switchShading)
+        switchLighting = findViewById(R.id.switchLighting)
 
-        btnCube = findViewById(R.id.btnCube)
-        btnScene = findViewById(R.id.btnScene)
-        btnObject = findViewById(R.id.btnObject)
-        setupListeners()
-        onModeChanged()
-    }
+        switchShading.setOnCheckedChangeListener { _, b ->
+            GLRenderer.shadingMode = if (b) ShadingMode.Goureaux else ShadingMode.Phong
+        }
 
-    private fun setupListeners() {
-        btnObject.setOnClickListener {
-            GLRenderer.rotationCenter = RotationCenter.Object
-            onModeChanged()
+        switchShading.setOnCheckedChangeListener { _, b ->
+            GLRenderer.lightingMode = if (b) LightingMode.Phong else LightingMode.Lambert
         }
-        btnCube.setOnClickListener {
-            GLRenderer.rotationCenter = RotationCenter.Cubes
-            onModeChanged()
-        }
-        btnScene.setOnClickListener {
-            GLRenderer.rotationCenter = RotationCenter.World
-            onModeChanged()
-        }
-    }
 
-    fun onModeChanged(){
-        btnCube.setBackgroundTintList(ColorStateList.valueOf(ResourcesCompat.getColor(resources, if (GLRenderer.rotationCenter == RotationCenter.Cubes) R.color.purple_200 else R.color.purple_500, null)))
-        btnScene.setBackgroundTintList(ColorStateList.valueOf(ResourcesCompat.getColor(resources, if (GLRenderer.rotationCenter == RotationCenter.World) R.color.purple_200 else R.color.purple_500, null)))
-        btnObject.setBackgroundTintList(ColorStateList.valueOf(ResourcesCompat.getColor(resources, if (GLRenderer.rotationCenter == RotationCenter.Object) R.color.purple_200 else R.color.purple_500, null)))
+        spinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, listOf("Объект", "Куб", "Мир"));
+        spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                (p0?.getChildAt(0) as TextView?)?.setTextColor(Color.WHITE)
+                when(p0?.selectedItemPosition){
+                    0 -> GLRenderer.rotationCenter = RotationCenter.Object
+                    1 -> GLRenderer.rotationCenter = RotationCenter.Cubes
+                    2 -> GLRenderer.rotationCenter = RotationCenter.World
+                }
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                p0?.setSelection(0)
+            }
+
+        }
+
+        sbStrength.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                GLRenderer.lightStrength = (p0?.progress?.toFloat() ?: 0f) / 100f
+            }
+
+            override fun onStartTrackingTouch(p0: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(p0: SeekBar?) {
+
+            }
+
+        })
+
+        sbAttenuation.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                GLRenderer.attenuation = (p0?.progress?.toFloat() ?: 0f) / 100f
+            }
+
+            override fun onStartTrackingTouch(p0: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(p0: SeekBar?) {
+
+            }
+
+        })
     }
 }
