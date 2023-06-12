@@ -3,20 +3,19 @@ package ru.mmcs.openglrotationplayground.objects
 import android.opengl.GLES30
 import android.util.Log
 import ru.mmcs.openglnextplayground.GLRenderer
+import ru.mmcs.openglrotationplayground.utils.Material
 import ru.mmcs.openglrotationplayground.utils.Point
 import java.io.IOException
 import java.io.InputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
-import java.nio.FloatBuffer
-import java.nio.IntBuffer
 
 open class Object3D(
     objFile: InputStream,
     vertexShaderFile: InputStream,
     fragmentShaderFile: InputStream,
     var center: Point,
-    val color: FloatArray = floatArrayOf(0.7f, 1.0f, 0.0f, 1.0f)
+    val material: Material = Material()
 ) {
     protected lateinit var vertices: FloatArray  // vert + norm + tex
     protected lateinit var vertexShader: String
@@ -129,6 +128,16 @@ open class Object3D(
 
     private var uMVPMatrixHandle : Int = 0
 
+    private var uEyePositionHandle : Int = 0
+    private var uLightPositionHandle : Int = 0
+
+    private var uMaterialAmbientHandle : Int = 0
+    private var uMaterialDiffuseHandle : Int = 0
+    private var uMaterialSpecularHandle : Int = 0
+    private var uLightAmbientHandle : Int = 0
+    private var uLightDiffuseHandle : Int = 0
+    private var uLightSpecularHandle : Int = 0
+
     private fun initBuffers(){
         GLES30.glGenVertexArrays(1, VAO, 0)
         GLES30.glGenBuffers(1, VBO, 0)
@@ -211,7 +220,27 @@ open class Object3D(
     }
 
     protected open fun attachAdditionalHandles(){
-        vColorHandle = GLES30.glGetUniformLocation(glProgramId, "vertexColor")
-        GLES30.glUniform4fv(vColorHandle, 1, color, 0)
+//        vColorHandle = GLES30.glGetUniformLocation(glProgramId, "vertexColor")
+//        GLES30.glUniform4fv(vColorHandle, 1, color, 0)
+        uEyePositionHandle = GLES30.glGetUniformLocation(glProgramId, "eyePosition")
+        GLES30.glUniform3fv(uEyePositionHandle, 1, GLRenderer.eyePosition, 0)
+        uLightPositionHandle = GLES30.glGetUniformLocation(glProgramId, "lightPosition")
+        GLES30.glUniform3fv(uLightPositionHandle, 1, GLRenderer.lightPosition, 0)
+
+        uLightSpecularHandle = GLES30.glGetUniformLocation(glProgramId, "lightSpecular")
+        GLES30.glUniform4fv(uLightSpecularHandle, 1, GLRenderer.lightSpecular, 0)
+        uLightDiffuseHandle = GLES30.glGetUniformLocation(glProgramId, "lightDiffuse")
+        GLES30.glUniform4fv(uLightDiffuseHandle, 1, GLRenderer.lightDiffuse, 0)
+        uLightAmbientHandle = GLES30.glGetUniformLocation(glProgramId, "lightAmbient")
+        GLES30.glUniform4fv(uLightAmbientHandle, 1, GLRenderer.lightAmbient, 0)
+
+        uMaterialSpecularHandle = GLES30.glGetUniformLocation(glProgramId, "materialSpecular")
+        GLES30.glUniform4fv(uMaterialSpecularHandle, 1, material.specular, 0)
+        uMaterialDiffuseHandle = GLES30.glGetUniformLocation(glProgramId, "materialDiffuse")
+        GLES30.glUniform4fv(uMaterialDiffuseHandle, 1, material.diffuse, 0)
+        uMaterialAmbientHandle = GLES30.glGetUniformLocation(glProgramId, "materialAmbient")
+        GLES30.glUniform4fv(uMaterialAmbientHandle, 1, material.ambient, 0)
+
+        Log.d("GL_DEBUG","Uniforms: $uEyePositionHandle $uLightPositionHandle $uLightSpecularHandle $uLightDiffuseHandle $uLightAmbientHandle $uMaterialSpecularHandle $uMaterialDiffuseHandle $uMaterialAmbientHandle")
     }
 }

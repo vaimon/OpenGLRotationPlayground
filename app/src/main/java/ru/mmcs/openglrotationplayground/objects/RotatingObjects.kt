@@ -2,12 +2,13 @@ package ru.mmcs.openglrotationplayground.objects
 
 import android.content.Context
 import android.opengl.GLES30
+import ru.mmcs.openglrotationplayground.utils.Material
 import ru.mmcs.openglrotationplayground.utils.Point
 
 open class RotatingObject3D(
     context: Context,
     center: Point,
-    color: FloatArray = floatArrayOf(0.7f, 1.0f, 0.0f, 1.0f),
+    color: Material = Material(),
     objFilePath: String
 ) : Object3D(
     objFile = context.assets.open(objFilePath),
@@ -53,7 +54,7 @@ open class RotatingObject3D(
 class Cube3D(
     context: Context,
     center: Point,
-    color: FloatArray = floatArrayOf(0.7f, 1.0f, 0.0f, 1.0f)
+    color: Material = Material(),
 ): RotatingObject3D(
     context,
     center,
@@ -64,7 +65,7 @@ class Cube3D(
 class Sphere3D(
     context: Context,
     center: Point,
-    color: FloatArray = floatArrayOf(0.7f, 1.0f, 0.0f, 1.0f)
+    color: Material = Material(),
 ): RotatingObject3D(
     context,
     center,
@@ -75,7 +76,7 @@ class Sphere3D(
 class Teapot3D(
     context: Context,
     center: Point,
-    color: FloatArray = floatArrayOf(0.7f, 1.0f, 0.0f, 1.0f)
+    color: Material = Material(),
 ): RotatingObject3D(
     context,
     center,
@@ -86,7 +87,7 @@ class Teapot3D(
 class Torus3D(
     context: Context,
     center: Point,
-    color: FloatArray = floatArrayOf(0.7f, 1.0f, 0.0f, 1.0f)
+    color: Material = Material(),
 ): RotatingObject3D(
     context,
     center,

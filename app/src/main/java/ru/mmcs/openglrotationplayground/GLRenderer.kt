@@ -6,6 +6,7 @@ import android.opengl.GLSurfaceView
 import android.opengl.Matrix
 import android.util.Log
 import ru.mmcs.openglrotationplayground.objects.*
+import ru.mmcs.openglrotationplayground.utils.Material
 import ru.mmcs.openglrotationplayground.utils.Point
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
@@ -22,10 +23,27 @@ class GLRenderer(private val context: Context) : GLSurfaceView.Renderer {
 
     override fun onSurfaceCreated(p0: GL10?, p1: EGLConfig?) {
         GLES30.glClearColor(0.0f, 0.0f, 0.0f, 1.0f)
-        sceneShapes.add(Cube3D(context, Point(1f,-0.5f,0f), floatArrayOf(0.97f,0.84f,0.12f,1f)))
-        sceneShapes.add(Torus3D(context, Point(1f,1f,0f), floatArrayOf(0.97f,0.24f,0.12f,1f)))
-        sceneShapes.add(Cube3D(context, Point(0.5f,-0.5f,0f), floatArrayOf(0.64f,0.64f,0.69f,1f)))
-        sceneShapes.add(Cube3D(context, Point(1.5f,-0.5f,0f), floatArrayOf(0.78f,0.43f,0f,1f)))
+        sceneShapes.add(
+            Cube3D(
+                context,
+                Point(1f, -0.5f, 0f),
+                Material(
+                    diffuse = floatArrayOf(0.97f, 0.84f, 0.12f, 1f)
+                )
+            )
+        )
+        sceneShapes.add(Torus3D(context, Point(1f, 1f, 0f), Material(diffuse = floatArrayOf(0.97f, 0.24f, 0.12f, 1f))))
+        sceneShapes.add(
+            Cube3D(
+                context,
+                Point(0.5f, -0.5f, 0f),
+                Material(
+                    diffuse = floatArrayOf(0.64f, 0.64f, 0.69f, 1f)
+                )
+
+            )
+        )
+        sceneShapes.add(Cube3D(context, Point(1.5f, -0.5f, 0f), Material(diffuse = floatArrayOf(0.78f, 0.43f, 0f, 1f))))
     }
 
     override fun onSurfaceChanged(p0: GL10?, width: Int, height: Int) {
@@ -37,12 +55,24 @@ class GLRenderer(private val context: Context) : GLSurfaceView.Renderer {
     override fun onDrawFrame(p0: GL10?) {
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT or GLES30.GL_DEPTH_BUFFER_BIT)
 
-        Matrix.setLookAtM(viewMatrix, 0, 0f, 2f, 8f, 0f, 0f, 0f, 0f, 1.0f, 0.0f)
+        Matrix.setLookAtM(
+            viewMatrix,
+            0,
+            eyePosition[0],
+            eyePosition[1],
+            eyePosition[2],
+            0f,
+            0f,
+            0f,
+            0f,
+            1.0f,
+            0.0f
+        )
 
         Matrix.multiplyMM(vpMatrix, 0, projectionMatrix, 0, viewMatrix, 0)
 
-        if(selectedShaderCombination != null){
-            for(shape in sceneShapes){
+        if (selectedShaderCombination != null) {
+            for (shape in sceneShapes) {
                 shape.reloadShaders(
                     context.assets.open("shaders/vertex/$selectedShaderCombination.vert"),
                     context.assets.open("shaders/fragment/$selectedShaderCombination.frag")
@@ -51,22 +81,22 @@ class GLRenderer(private val context: Context) : GLSurfaceView.Renderer {
             selectedShaderCombination = null
         }
 
-        for(shape in sceneShapes){
+        for (shape in sceneShapes) {
             shape.draw(vpMatrix)
         }
     }
 
-    fun addAngle(angle: Float){
-        for(shape in sceneShapes){
-            when(rotationCenter){
-                RotationCenter.Object -> shape.objectAngle += angle
+    fun addAngle(angle: Float) {
+        for (shape in sceneShapes) {
+            when (rotationCenter) {
+                RotationCenter.ComplexObject -> shape.objectAngle += angle
                 RotationCenter.World -> shape.worldAngle += angle
-                RotationCenter.Cubes -> shape.thisAngle += angle
+                RotationCenter.SingleObject -> shape.thisAngle += angle
             }
         }
     }
 
-    fun updateLightingModel(){
+    fun updateLightingModel() {
         selectedShaderCombination = "${shadingMode.tag}_${lightingMode.tag}"
         Log.d("GL_DEBUG", selectedShaderCombination!!)
     }
@@ -77,6 +107,13 @@ class GLRenderer(private val context: Context) : GLSurfaceView.Renderer {
         var lightingMode = LightingMode.Phong
         var attenuation = 0.0f
         var lightStrength = 0.0f
+
+        val eyePosition = floatArrayOf(0f, 2f, 8f)
+        val lightPosition = floatArrayOf(2f, 2f, 5f)
+
+        val lightSpecular = floatArrayOf(1f, 1f, 1f, 1f)
+        val lightDiffuse = floatArrayOf(1f, 1f, 1f, 1f)
+        val lightAmbient = floatArrayOf(1f, 1f, 1f, 1f)
 
         fun loadShader(type: Int, shaderCode: String): Int {
             val id = GLES30.glCreateShader(type).also { shader ->
@@ -93,10 +130,10 @@ class GLRenderer(private val context: Context) : GLSurfaceView.Renderer {
             return id
         }
 
-        fun checkGLError(tag: String = ""){
+        fun checkGLError(tag: String = "") {
             val err = GLES30.glGetError()
-            if(err != GLES30.GL_NO_ERROR){
-                Log.e("GL_DEBUG","Error in opengl: $err [$tag]")
+            if (err != GLES30.GL_NO_ERROR) {
+                Log.e("GL_DEBUG", "Error in opengl: $err [$tag]")
             }
         }
     }
