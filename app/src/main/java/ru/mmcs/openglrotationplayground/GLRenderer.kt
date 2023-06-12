@@ -5,14 +5,13 @@ import android.opengl.GLES30
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix
 import android.util.Log
+import ru.mmcs.openglrotationplayground.objects.*
 import ru.mmcs.openglrotationplayground.utils.Point
-import ru.mmcs.openglrotationplayground.objects.Cube
-import ru.mmcs.openglrotationplayground.objects.Cube3D
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
 class GLRenderer(private val context: Context) : GLSurfaceView.Renderer {
-    private val sceneShapes = mutableListOf<Cube3D>()
+    private val sceneShapes = mutableListOf<RotatingObject3D>()
 
     private val vpMatrix = FloatArray(16)
     private val projectionMatrix = FloatArray(16)
@@ -22,7 +21,7 @@ class GLRenderer(private val context: Context) : GLSurfaceView.Renderer {
     override fun onSurfaceCreated(p0: GL10?, p1: EGLConfig?) {
         GLES30.glClearColor(0.0f, 0.0f, 0.0f, 1.0f)
         sceneShapes.add(Cube3D(context, Point(1f,-0.5f,0f), floatArrayOf(0.97f,0.84f,0.12f,1f)))
-        sceneShapes.add(Cube3D(context, Point(1f,0f,0f), floatArrayOf(0.97f,0.84f,0.12f,1f)))
+        sceneShapes.add(Teapot3D(context, Point(1f,0f,0f), floatArrayOf(0.97f,0.44f,0.12f,1f)))
         sceneShapes.add(Cube3D(context, Point(0.5f,-0.5f,0f), floatArrayOf(0.64f,0.64f,0.69f,1f)))
         sceneShapes.add(Cube3D(context, Point(1.5f,-0.5f,0f), floatArrayOf(0.78f,0.43f,0f,1f)))
     }
@@ -30,13 +29,13 @@ class GLRenderer(private val context: Context) : GLSurfaceView.Renderer {
     override fun onSurfaceChanged(p0: GL10?, width: Int, height: Int) {
         GLES30.glViewport(0, 0, width, height)
         val ratio: Float = width.toFloat() / height.toFloat()
-        Matrix.perspectiveM(projectionMatrix, 0, 45f, ratio, 3f, 7f)
+        Matrix.perspectiveM(projectionMatrix, 0, 45f, ratio, 3f, 20f)
     }
 
     override fun onDrawFrame(p0: GL10?) {
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT or GLES30.GL_DEPTH_BUFFER_BIT)
 
-        Matrix.setLookAtM(viewMatrix, 0, 0f, 0f, 5f, 0f, 0f, 0f, 0f, 1.0f, 0.0f)
+        Matrix.setLookAtM(viewMatrix, 0, 0f, 2f, 8f, 0f, 0f, 0f, 0f, 1.0f, 0.0f)
 
         Matrix.multiplyMM(vpMatrix, 0, projectionMatrix, 0, viewMatrix, 0)
 

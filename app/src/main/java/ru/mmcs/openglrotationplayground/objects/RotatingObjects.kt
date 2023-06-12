@@ -4,12 +4,13 @@ import android.content.Context
 import android.opengl.GLES30
 import ru.mmcs.openglrotationplayground.utils.Point
 
-class Cube3D(
+open class RotatingObject3D(
     context: Context,
     center: Point,
-    color: FloatArray = floatArrayOf(0.7f, 1.0f, 0.0f, 1.0f)
+    color: FloatArray = floatArrayOf(0.7f, 1.0f, 0.0f, 1.0f),
+    objFilePath: String
 ) : Object3D(
-    objFile = context.assets.open("objects/cube.obj"),
+    objFile = context.assets.open(objFilePath),
     vertexShaderFile = context.assets.open("shaders/rotation_object.vert"),
     fragmentShaderFile = context.assets.open("shaders/rotation_object.frag"),
     center,
@@ -48,3 +49,36 @@ class Cube3D(
         GLES30.glUniform3fv(thisCenterHandle, 1, center.toFloatArray(), 0)
     }
 }
+
+class Cube3D(
+    context: Context,
+    center: Point,
+    color: FloatArray = floatArrayOf(0.7f, 1.0f, 0.0f, 1.0f)
+): RotatingObject3D(
+    context,
+    center,
+    color,
+    "objects/cube.obj"
+)
+
+class Sphere3D(
+    context: Context,
+    center: Point,
+    color: FloatArray = floatArrayOf(0.7f, 1.0f, 0.0f, 1.0f)
+): RotatingObject3D(
+    context,
+    center,
+    color,
+    "objects/sphere.obj"
+)
+
+class Teapot3D(
+    context: Context,
+    center: Point,
+    color: FloatArray = floatArrayOf(0.7f, 1.0f, 0.0f, 1.0f)
+): RotatingObject3D(
+    context,
+    center,
+    color,
+    "objects/teapot.obj"
+)

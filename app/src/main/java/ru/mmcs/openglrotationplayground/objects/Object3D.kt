@@ -75,6 +75,7 @@ open class Object3D(
                         }
                     }
                     "o" -> {}
+                    "" -> {}
                     else -> throw IOException(".obj file is badly formatted. Unknown tag [${details.first()}]")
                 }
             }
