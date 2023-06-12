@@ -21,7 +21,7 @@ class GLRenderer(private val context: Context) : GLSurfaceView.Renderer {
     override fun onSurfaceCreated(p0: GL10?, p1: EGLConfig?) {
         GLES30.glClearColor(0.0f, 0.0f, 0.0f, 1.0f)
         sceneShapes.add(Cube3D(context, Point(1f,-0.5f,0f), floatArrayOf(0.97f,0.84f,0.12f,1f)))
-        sceneShapes.add(Teapot3D(context, Point(1f,0f,0f), floatArrayOf(0.97f,0.44f,0.12f,1f)))
+        sceneShapes.add(Torus3D(context, Point(1f,1f,0f), floatArrayOf(0.97f,0.24f,0.12f,1f)))
         sceneShapes.add(Cube3D(context, Point(0.5f,-0.5f,0f), floatArrayOf(0.64f,0.64f,0.69f,1f)))
         sceneShapes.add(Cube3D(context, Point(1.5f,-0.5f,0f), floatArrayOf(0.78f,0.43f,0f,1f)))
     }

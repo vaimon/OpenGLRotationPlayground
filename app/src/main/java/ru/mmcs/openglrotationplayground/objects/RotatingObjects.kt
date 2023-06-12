@@ -82,3 +82,14 @@ class Teapot3D(
     color,
     "objects/teapot.obj"
 )
+
+class Torus3D(
+    context: Context,
+    center: Point,
+    color: FloatArray = floatArrayOf(0.7f, 1.0f, 0.0f, 1.0f)
+): RotatingObject3D(
+    context,
+    center,
+    color,
+    "objects/torus.obj"
+)
