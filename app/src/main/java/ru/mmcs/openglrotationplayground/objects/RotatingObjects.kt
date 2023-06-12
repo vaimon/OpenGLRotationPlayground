@@ -11,8 +11,8 @@ open class RotatingObject3D(
     objFilePath: String
 ) : Object3D(
     objFile = context.assets.open(objFilePath),
-    vertexShaderFile = context.assets.open("shaders/rotation_object.vert"),
-    fragmentShaderFile = context.assets.open("shaders/rotation_object.frag"),
+    vertexShaderFile = context.assets.open("shaders/vertex/phong_phong.vert"),
+    fragmentShaderFile = context.assets.open("shaders/fragment/phong_phong.frag"),
     center,
     color
 ) {

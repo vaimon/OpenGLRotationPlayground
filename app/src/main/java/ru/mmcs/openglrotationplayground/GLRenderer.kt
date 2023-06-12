@@ -17,6 +17,8 @@ class GLRenderer(private val context: Context) : GLSurfaceView.Renderer {
     private val projectionMatrix = FloatArray(16)
     private val viewMatrix = FloatArray(16)
 
+    private var selectedShaderCombination: String? = null
+
 
     override fun onSurfaceCreated(p0: GL10?, p1: EGLConfig?) {
         GLES30.glClearColor(0.0f, 0.0f, 0.0f, 1.0f)
@@ -39,6 +41,16 @@ class GLRenderer(private val context: Context) : GLSurfaceView.Renderer {
 
         Matrix.multiplyMM(vpMatrix, 0, projectionMatrix, 0, viewMatrix, 0)
 
+        if(selectedShaderCombination != null){
+            for(shape in sceneShapes){
+                shape.reloadShaders(
+                    context.assets.open("shaders/vertex/$selectedShaderCombination.vert"),
+                    context.assets.open("shaders/fragment/$selectedShaderCombination.frag")
+                )
+            }
+            selectedShaderCombination = null
+        }
+
         for(shape in sceneShapes){
             shape.draw(vpMatrix)
         }
@@ -52,6 +64,11 @@ class GLRenderer(private val context: Context) : GLSurfaceView.Renderer {
                 RotationCenter.Cubes -> shape.thisAngle += angle
             }
         }
+    }
+
+    fun updateLightingModel(){
+        selectedShaderCombination = "${shadingMode.tag}_${lightingMode.tag}"
+        Log.d("GL_DEBUG", selectedShaderCombination!!)
     }
 
     companion object {
@@ -71,7 +88,6 @@ class GLRenderer(private val context: Context) : GLSurfaceView.Renderer {
             GLES30.glGetShaderiv(id, GLES30.GL_COMPILE_STATUS, compileStatus, 0)
             if (compileStatus[0] == 0) {
                 Log.e("GL_DEBUG", "Shader compilation error: " + GLES30.glGetShaderInfoLog(id))
-//                Log.e("Shader Source : ", GLES30.glGetShaderSource(shader))
             }
 
             return id

@@ -19,12 +19,12 @@ class Cube(context: Context, var center: Point, val radius: Float, val color: Fl
 //        Log.d("GL_DEBUG", "${context.assets.list("shaders")?.joinToString(" ") { s -> s }}")
 
         fragmentShader = context.assets
-            .open("shaders/rotation_object.frag")
+            .open("shaders/fragment/rotation_object.frag")
             .bufferedReader().use {
                 it.readText()
             }
         vertexShader = context.assets
-            .open("shaders/rotation_object.vert")
+            .open("shaders/vertex/rotation_object.vert")
             .bufferedReader().use {
                 it.readText()
             }

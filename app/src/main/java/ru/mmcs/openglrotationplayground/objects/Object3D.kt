@@ -18,15 +18,40 @@ open class Object3D(
     var center: Point,
     val color: FloatArray = floatArrayOf(0.7f, 1.0f, 0.0f, 1.0f)
 ) {
-    protected val vertices: FloatArray  // vert + norm + tex
-    protected val vertexShader: String
-    protected val fragmentShader: String
+    protected lateinit var vertices: FloatArray  // vert + norm + tex
+    protected lateinit var vertexShader: String
+    protected lateinit var fragmentShader: String
 
     protected var glProgramId: Int = -1
     private var VAO: IntArray = intArrayOf(0)
     private var VBO: IntArray = intArrayOf(0)
 
     init {
+        parseObjFile(objFile)
+        readShaders(vertexShaderFile, fragmentShaderFile)
+        compileShaders()
+        initBuffers()
+        GLES30.glEnable(GLES30.GL_DEPTH_TEST)
+    }
+
+    fun reloadShaders(vertexShaderFile: InputStream, fragmentShaderFile: InputStream){
+        readShaders(vertexShaderFile, fragmentShaderFile)
+        compileShaders()
+        initBuffers()
+    }
+
+    private fun readShaders(vertexShaderFile: InputStream, fragmentShaderFile: InputStream){
+        fragmentShader = fragmentShaderFile
+            .bufferedReader().use {
+                it.readText()
+            }
+        vertexShader = vertexShaderFile
+            .bufferedReader().use {
+                it.readText()
+            }
+    }
+
+    private fun parseObjFile(objFile: InputStream){
         val packedVertices = mutableListOf<Float>()
         objFile.bufferedReader().use {
             val vertices = mutableListOf<Float>()
@@ -82,21 +107,9 @@ open class Object3D(
 //            Log.d("GL_DEBUG", "v: " + packedVertices.joinToString(" "))
         }
         this.vertices = packedVertices.toFloatArray()
-        fragmentShader = fragmentShaderFile
-            .bufferedReader().use {
-                it.readText()
-            }
-        vertexShader = vertexShaderFile
-            .bufferedReader().use {
-                it.readText()
-            }
-
-        compileShaders()
-        initBuffers()
-        GLES30.glEnable(GLES30.GL_DEPTH_TEST)
     }
 
-    fun compileShaders() {
+    private fun compileShaders() {
         val vertexShaderId = GLRenderer.loadShader(GLES30.GL_VERTEX_SHADER, vertexShader)
         val fragmentShaderId = GLRenderer.loadShader(GLES30.GL_FRAGMENT_SHADER, fragmentShader)
 
@@ -116,7 +129,7 @@ open class Object3D(
 
     private var uMVPMatrixHandle : Int = 0
 
-    fun initBuffers(){
+    private fun initBuffers(){
         GLES30.glGenVertexArrays(1, VAO, 0)
         GLES30.glGenBuffers(1, VBO, 0)
 

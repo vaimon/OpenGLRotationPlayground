@@ -36,10 +36,12 @@ class MainActivity : AppCompatActivity() {
 
         switchShading.setOnCheckedChangeListener { _, b ->
             GLRenderer.shadingMode = if (b) ShadingMode.Goureaux else ShadingMode.Phong
+            glView.updateLightingModel()
         }
 
-        switchShading.setOnCheckedChangeListener { _, b ->
+        switchLighting.setOnCheckedChangeListener { _, b ->
             GLRenderer.lightingMode = if (b) LightingMode.Phong else LightingMode.Lambert
+            glView.updateLightingModel()
         }
 
         spinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, listOf("Объект", "Куб", "Мир"));
