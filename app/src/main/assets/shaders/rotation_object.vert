@@ -1,7 +1,14 @@
 #version 300 es
-in vec3 vPosition;
+in vec3 vertexPosition;
+in vec3 vertexNormale;
+in vec2 vertexTextureCoords;
+
+out vec2 vTextureCoordinate;
+out vec4 vColor;
+
 uniform mat4 uMVPMatrix;
 
+uniform vec4 vertexColor;
 uniform vec3 object_center;
 uniform vec3 this_center;
 uniform float world_angle;
@@ -9,7 +16,7 @@ uniform float object_angle;
 uniform float this_angle;
 
 void main() {
-    vec3 position = (vPosition - this_center) * mat3(
+    vec3 position = (vertexPosition - this_center) * mat3(
         cos(this_angle), 0, sin(this_angle),
         0, 1, 0,
         -sin(this_angle), 0, cos(this_angle)
@@ -28,4 +35,6 @@ void main() {
     ));
 
     gl_Position = uMVPMatrix * vec4(position, 1.0);
+    vTextureCoordinate = vertexTextureCoords;
+    vColor = vec4(vertexNormale, 1.0) * 0.0001 + vertexColor;
 }

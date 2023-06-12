@@ -1,3 +1,5 @@
+package ru.mmcs.openglrotationplayground.utils
+
 class Matrix(val width: Int, val height: Int, filling: List<Float>) {
     private val storage: MutableList<MutableList<Float>> = mutableListOf()
 

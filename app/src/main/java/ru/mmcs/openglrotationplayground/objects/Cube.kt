@@ -1,10 +1,9 @@
-package ru.mmcs.openglnextplayground
+package ru.mmcs.openglrotationplayground.objects
 
-import android.app.Application
 import android.content.Context
 import android.opengl.GLES30
-import android.util.Log
-import ru.mmcs.openglrotationplayground.Point
+import ru.mmcs.openglnextplayground.GLRenderer
+import ru.mmcs.openglrotationplayground.utils.Point
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.FloatBuffer
