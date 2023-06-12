@@ -44,13 +44,13 @@ class MainActivity : AppCompatActivity() {
             glView.updateLightingModel()
         }
 
-        spinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, listOf("Объект", "Куб", "Мир"));
+        spinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, listOf("Все объекты", "Каждый объект", "Мир"));
         spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 (p0?.getChildAt(0) as TextView?)?.setTextColor(Color.WHITE)
                 when(p0?.selectedItemPosition){
-                    0 -> GLRenderer.rotationCenter = RotationCenter.Object
-                    1 -> GLRenderer.rotationCenter = RotationCenter.Cubes
+                    0 -> GLRenderer.rotationCenter = RotationCenter.ComplexObject
+                    1 -> GLRenderer.rotationCenter = RotationCenter.SingleObject
                     2 -> GLRenderer.rotationCenter = RotationCenter.World
                 }
             }
