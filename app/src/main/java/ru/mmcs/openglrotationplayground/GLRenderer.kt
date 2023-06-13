@@ -125,11 +125,11 @@ class GLRenderer(private val context: Context) : GLSurfaceView.Renderer {
         var rotationCenter = RotationCenter.World
         var shadingMode = ShadingMode.Phong
         var lightingMode = LightingMode.Phong
-        var attenuation = 0.0f
 
         val eyePosition = floatArrayOf(0f, 2f, 8f)
         val lightPosition = floatArrayOf(2f, 2f, 2f)
 
+        var lightAttenuation = floatArrayOf(1f, 1f, 1f)
         val lightSpecular = floatArrayOf(1f, 1f, 1f, 1f)
         val lightDiffuse = floatArrayOf(1f, 1f, 1f, 1f)
         var lightAmbient = floatArrayOf(0.5f, 0.5f, 0.5f, 1f)

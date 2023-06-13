@@ -16,6 +16,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var glView: OpenGLView
     private lateinit var spinner: Spinner
     private lateinit var sbAttenuation: SeekBar
+    private lateinit var sbAttenuation2: SeekBar
+    private lateinit var sbAttenuation3: SeekBar
     private lateinit var sbStrength: SeekBar
     private lateinit var switchShading: SwitchCompat
     private lateinit var switchLighting: SwitchCompat
@@ -30,6 +32,8 @@ class MainActivity : AppCompatActivity() {
         glView = findViewById(R.id.glView)
         spinner = findViewById(R.id.spinner)
         sbAttenuation = findViewById(R.id.seekAttenuation)
+        sbAttenuation2 = findViewById(R.id.seekAttenuation2)
+        sbAttenuation3 = findViewById(R.id.seekAttenuation3)
         sbStrength = findViewById(R.id.seekOriginStrength)
         switchShading = findViewById(R.id.switchShading)
         switchLighting = findViewById(R.id.switchLighting)
@@ -80,7 +84,40 @@ class MainActivity : AppCompatActivity() {
 
         sbAttenuation.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                GLRenderer.attenuation = (p0?.progress?.toFloat() ?: 0f) / 100f
+                GLRenderer.lightAttenuation = floatArrayOf((p0?.progress?.toFloat() ?: 0f) / 100f, GLRenderer.lightAttenuation[1], GLRenderer.lightAttenuation[2])
+                glView.requestRender()
+            }
+
+            override fun onStartTrackingTouch(p0: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(p0: SeekBar?) {
+
+            }
+
+        })
+
+        sbAttenuation2.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                GLRenderer.lightAttenuation = floatArrayOf(GLRenderer.lightAttenuation[0], (p0?.progress?.toFloat() ?: 0f) / 100f, GLRenderer.lightAttenuation[2])
+                glView.requestRender()
+            }
+
+            override fun onStartTrackingTouch(p0: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(p0: SeekBar?) {
+
+            }
+
+        })
+
+        sbAttenuation3.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                GLRenderer.lightAttenuation = floatArrayOf(GLRenderer.lightAttenuation[0], GLRenderer.lightAttenuation[1], (p0?.progress?.toFloat() ?: 0f) / 100f)
+                glView.requestRender()
             }
 
             override fun onStartTrackingTouch(p0: SeekBar?) {

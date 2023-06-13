@@ -137,6 +137,7 @@ open class Object3D(
     private var uLightAmbientHandle : Int = 0
     private var uLightDiffuseHandle : Int = 0
     private var uLightSpecularHandle : Int = 0
+    private var uLightAttenuationHandle : Int = 0
     private var uMaterialShininessHandle : Int = 0
 
     private fun initBuffers(){
@@ -243,6 +244,9 @@ open class Object3D(
         GLES30.glUniform4fv(uMaterialAmbientHandle, 1, material.ambient, 0)
         uMaterialShininessHandle = GLES30.glGetUniformLocation(glProgramId, "materialShininess")
         GLES30.glUniform1f(uMaterialShininessHandle, material.shininess)
+
+        uLightAttenuationHandle = GLES30.glGetUniformLocation(glProgramId, "lightAttenuation")
+        GLES30.glUniform3fv(uLightAttenuationHandle, 1, GLRenderer.lightAttenuation, 0)
 
         Log.d("GL_DEBUG","Uniforms: $uEyePositionHandle $uLightPositionHandle $uLightSpecularHandle $uLightDiffuseHandle $uLightAmbientHandle $uMaterialSpecularHandle $uMaterialDiffuseHandle $uMaterialAmbientHandle")
     }

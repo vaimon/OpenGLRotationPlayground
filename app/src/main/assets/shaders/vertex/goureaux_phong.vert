@@ -25,6 +25,7 @@ uniform float materialShininess;
 uniform vec4 lightAmbient;
 uniform vec4 lightDiffuse;
 uniform vec4 lightSpecular;
+uniform vec3 lightAttenuation;
 
 vec3 rotateVector(vec3 vector, vec3 angles) {
     float cosThetaX = cos(angles.x);
@@ -92,5 +93,8 @@ void main() {
     float specularAngle = pow(max(dot(reflect(-lightNormale, rotatedNormale), viewDirection), 0.0), 2.0);
     vec4 specular = materialSpecular * lightSpecular * specularAngle;
 
-    vColor = ambient + diffuse + specular;
+    float distance = distance(lightPosition, vertexPosition);
+    float attenuation = 1.0 / (lightAttenuation.x + lightAttenuation.y * distance + lightAttenuation.z * pow(distance, 2.0));
+
+    vColor = ambient + attenuation * (diffuse + specular);
 }
