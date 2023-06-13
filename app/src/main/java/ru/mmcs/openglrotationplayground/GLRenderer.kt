@@ -34,7 +34,7 @@ class GLRenderer(private val context: Context) : GLSurfaceView.Renderer {
             )
         )
         sceneShapes.add(
-            Teapot3D(
+            Torus3D(
                 context,
                 Point(1f, 1f, 0f),
                 Material(
