@@ -129,6 +129,9 @@ class GLRenderer(private val context: Context) : GLSurfaceView.Renderer {
         val eyePosition = floatArrayOf(0f, 2f, 8f)
         val lightPosition = floatArrayOf(2f, 2f, 2f)
 
+        var textureContribution = 0f
+        var materialContribution = 0f
+
         var lightAttenuation = floatArrayOf(1f, 0f, 0f)
         val lightSpecular = floatArrayOf(1f, 1f, 1f, 1f)
         val lightDiffuse = floatArrayOf(1f, 1f, 1f, 1f)
