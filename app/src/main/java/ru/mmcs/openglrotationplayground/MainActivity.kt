@@ -15,7 +15,6 @@ import ru.mmcs.openglnextplayground.*
 class MainActivity : AppCompatActivity() {
     private lateinit var glView: OpenGLView
     private lateinit var spinner: Spinner
-    private lateinit var sbAttenuation: SeekBar
     private lateinit var sbAttenuation2: SeekBar
     private lateinit var sbAttenuation3: SeekBar
     private lateinit var sbStrength: SeekBar
@@ -31,7 +30,6 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         glView = findViewById(R.id.glView)
         spinner = findViewById(R.id.spinner)
-        sbAttenuation = findViewById(R.id.seekAttenuation)
         sbAttenuation2 = findViewById(R.id.seekAttenuation2)
         sbAttenuation3 = findViewById(R.id.seekAttenuation3)
         sbStrength = findViewById(R.id.seekOriginStrength)
@@ -82,21 +80,21 @@ class MainActivity : AppCompatActivity() {
 
         })
 
-        sbAttenuation.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
-            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                GLRenderer.lightAttenuation = floatArrayOf((p0?.progress?.toFloat() ?: 0f) / 100f, GLRenderer.lightAttenuation[1], GLRenderer.lightAttenuation[2])
-                glView.requestRender()
-            }
-
-            override fun onStartTrackingTouch(p0: SeekBar?) {
-
-            }
-
-            override fun onStopTrackingTouch(p0: SeekBar?) {
-
-            }
-
-        })
+//        sbAttenuation.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
+//            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+//                GLRenderer.lightAttenuation = floatArrayOf((p0?.progress?.toFloat() ?: 0f) / 100f, GLRenderer.lightAttenuation[1], GLRenderer.lightAttenuation[2])
+//                glView.requestRender()
+//            }
+//
+//            override fun onStartTrackingTouch(p0: SeekBar?) {
+//
+//            }
+//
+//            override fun onStopTrackingTouch(p0: SeekBar?) {
+//
+//            }
+//
+//        })
 
         sbAttenuation2.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
@@ -116,7 +114,7 @@ class MainActivity : AppCompatActivity() {
 
         sbAttenuation3.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                GLRenderer.lightAttenuation = floatArrayOf(GLRenderer.lightAttenuation[0], GLRenderer.lightAttenuation[1], (p0?.progress?.toFloat() ?: 0f) / 100f)
+                GLRenderer.lightAttenuation = floatArrayOf(GLRenderer.lightAttenuation[0], GLRenderer.lightAttenuation[1], (p0?.progress?.toFloat() ?: 0f) / 1000f)
                 glView.requestRender()
             }
 

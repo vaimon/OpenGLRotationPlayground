@@ -248,6 +248,6 @@ open class Object3D(
         uLightAttenuationHandle = GLES30.glGetUniformLocation(glProgramId, "lightAttenuation")
         GLES30.glUniform3fv(uLightAttenuationHandle, 1, GLRenderer.lightAttenuation, 0)
 
-        Log.d("GL_DEBUG","Uniforms: $uEyePositionHandle $uLightPositionHandle $uLightSpecularHandle $uLightDiffuseHandle $uLightAmbientHandle $uMaterialSpecularHandle $uMaterialDiffuseHandle $uMaterialAmbientHandle")
+        Log.d("GL_DEBUG","Uniforms: $uEyePositionHandle $uLightPositionHandle $uLightSpecularHandle $uLightDiffuseHandle $uLightAmbientHandle $uMaterialSpecularHandle $uMaterialDiffuseHandle $uMaterialAmbientHandle $uMaterialShininessHandle $uLightAmbientHandle")
     }
 }

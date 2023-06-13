@@ -80,36 +80,19 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <SeekBar
-        android:id="@+id/seekAttenuation"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/white"
-        android:max="100"
-        android:min="1"
-        android:progress="1"
-        android:progressTint="#BDBDBD"
-        android:thumbTint="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/seekAttenuation2"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@+id/seekOriginStrength"
-        app:layout_constraintTop_toBottomOf="@+id/switchShading"
-        app:layout_constraintVertical_bias="0.2" />
-
-    <SeekBar
         android:id="@+id/seekAttenuation2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/white"
         android:max="100"
-        android:min="1"
-        android:progress="1"
+        android:min="0"
+        android:progress="0"
         android:progressTint="#BDBDBD"
         android:thumbTint="@color/white"
+        app:layout_constraintStart_toEndOf="@+id/seekOriginStrength"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/seekAttenuation3"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@+id/seekAttenuation"
         app:layout_constraintTop_toBottomOf="@+id/switchShading"
         app:layout_constraintVertical_bias="0.2" />
     <SeekBar
@@ -118,8 +101,8 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/white"
         android:max="100"
-        android:min="10"
-        android:progress="1"
+        android:min="0"
+        android:progress="0"
         android:progressTint="#BDBDBD"
         android:thumbTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -139,9 +122,9 @@
         android:progressTint="#FFDC5E"
         android:thumbTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/seekAttenuation"
         app:layout_constraintHorizontal_weight="2"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/seekAttenuation2"
         app:layout_constraintTop_toBottomOf="@+id/switchLighting"
         app:layout_constraintVertical_bias="0.2" />
 
@@ -153,7 +136,7 @@
         android:text="Эмбиент"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/seekAttenuation"
+        app:layout_constraintEnd_toStartOf="@+id/seekAttenuation2"
         app:layout_constraintStart_toStartOf="@+id/seekOriginStrength"
         app:layout_constraintTop_toBottomOf="@+id/seekOriginStrength" />
 
@@ -165,8 +148,7 @@
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/seekAttenuation"
-        app:layout_constraintTop_toBottomOf="@+id/seekAttenuation" />
+        app:layout_constraintStart_toStartOf="@+id/seekAttenuation2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
     <ru.mmcs.openglnextplayground.OpenGLView

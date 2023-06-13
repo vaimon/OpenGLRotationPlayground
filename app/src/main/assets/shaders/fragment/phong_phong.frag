@@ -26,12 +26,12 @@ void main() {
     vec4 diffuse = materialDiffuse * lightDiffuse * lightAngle;
 
     vec3 viewDirection = normalize(eyePosition - vPosition);
-    float specularAngle = pow(max(dot(reflect(-lightNormale, vNormale), viewDirection), 0.0), 2.0);
+    float specularAngle = pow(max(dot(reflect(-lightNormale, vNormale), viewDirection), 0.0), materialShininess);
     vec4 specular = materialSpecular * lightSpecular * specularAngle;
 
-    float distance = distance(lightPosition, vPosition);
+    float distance = length(lightPosition - vPosition);
     float attenuation = 1.0 / (lightAttenuation.x + lightAttenuation.y * distance + lightAttenuation.z * pow(distance, 2.0));
 
     vec4 vColor = ambient + attenuation * (diffuse + specular);
-    fragColor = vColor + vec4(vTextureCoordinate * 0.0001, 0.0, 0.0);
+    fragColor = vColor + vec4(vTextureCoordinate * 0.000001, 0.0, 0.0);
 }

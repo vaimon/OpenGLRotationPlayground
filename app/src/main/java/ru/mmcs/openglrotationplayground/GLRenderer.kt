@@ -26,7 +26,7 @@ class GLRenderer(private val context: Context) : GLSurfaceView.Renderer {
         sceneShapes.add(
             Cube3D(
                 context,
-                Point(1f, -0.5f, 0f),
+                Point(1f, 0f, 0f),
                 Material(
                     ambient = floatArrayOf(0.97f, 0.84f, 0.12f, 1f),
                     diffuse = floatArrayOf(0.97f, 0.84f, 0.12f, 1f)
@@ -34,7 +34,7 @@ class GLRenderer(private val context: Context) : GLSurfaceView.Renderer {
             )
         )
         sceneShapes.add(
-            Torus3D(
+            Teapot3D(
                 context,
                 Point(1f, 1f, 0f),
                 Material(
@@ -46,7 +46,7 @@ class GLRenderer(private val context: Context) : GLSurfaceView.Renderer {
         sceneShapes.add(
             Cube3D(
                 context,
-                Point(0.5f, -0.5f, 0f),
+                Point(0.5f, 0f, 0f),
                 Material(
                     ambient = floatArrayOf(0.64f, 0.64f, 0.69f, 1f),
                     diffuse = floatArrayOf(0.64f, 0.64f, 0.69f, 1f),
@@ -57,7 +57,7 @@ class GLRenderer(private val context: Context) : GLSurfaceView.Renderer {
         sceneShapes.add(
             Cube3D(
                 context,
-                Point(1.5f, -0.5f, 0f),
+                Point(1.5f, 0f, 0f),
                 Material(
                     ambient = floatArrayOf(0.78f, 0.43f, 0f, 1f),
                     diffuse = floatArrayOf(0.78f, 0.43f, 0f, 1f),
@@ -129,7 +129,7 @@ class GLRenderer(private val context: Context) : GLSurfaceView.Renderer {
         val eyePosition = floatArrayOf(0f, 2f, 8f)
         val lightPosition = floatArrayOf(2f, 2f, 2f)
 
-        var lightAttenuation = floatArrayOf(0.1f, 0.1f, 0.1f)
+        var lightAttenuation = floatArrayOf(1f, 0f, 0f)
         val lightSpecular = floatArrayOf(1f, 1f, 1f, 1f)
         val lightDiffuse = floatArrayOf(1f, 1f, 1f, 1f)
         var lightAmbient = floatArrayOf(0.15f, 0.15f, 0.15f, 1f)
