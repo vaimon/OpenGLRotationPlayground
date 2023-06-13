@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 
 enum class RotationCenter { ComplexObject, World, SingleObject}
-enum class LightingMode(val tag: String) { Lambert("lambert"), Phong("phong") }
+enum class LightingMode(val tag: String) { Lambert("lambert"), Phong("phong"), TexturePhong("texture") }
 enum class ShadingMode(val tag: String) { Goureaux("goureaux"), Phong("phong") }
 
 class OpenGLView(context: Context, attributes: AttributeSet) : GLSurfaceView(context, attributes) {

@@ -1,8 +1,13 @@
 package ru.mmcs.openglrotationplayground.objects
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.opengl.GLES30
+import android.opengl.GLUtils
 import android.util.Log
 import ru.mmcs.openglnextplayground.GLRenderer
+import ru.mmcs.openglrotationplayground.App
 import ru.mmcs.openglrotationplayground.utils.Material
 import ru.mmcs.openglrotationplayground.utils.Point
 import java.io.IOException
@@ -24,13 +29,28 @@ open class Object3D(
     protected var glProgramId: Int = -1
     private var VAO: IntArray = intArrayOf(0)
     private var VBO: IntArray = intArrayOf(0)
+    private val textures = intArrayOf(0)
+
+    private lateinit var textureBitmap: Bitmap
+    private lateinit var materialBitmap: Bitmap
 
     init {
+        loadBitmaps(App.appContext)
         parseObjFile(objFile)
         readShaders(vertexShaderFile, fragmentShaderFile)
         compileShaders()
         initBuffers()
+        initTextures()
         GLES30.glEnable(GLES30.GL_DEPTH_TEST)
+    }
+
+    private fun loadBitmaps(context: Context?){
+        context!!.assets.open(material.materialPath).use{
+            materialBitmap = BitmapFactory.decodeStream(it)
+        }
+        context.assets.open(material.texturePath).use{
+            textureBitmap = BitmapFactory.decodeStream(it)
+        }
     }
 
     fun reloadShaders(vertexShaderFile: InputStream, fragmentShaderFile: InputStream){
@@ -139,6 +159,10 @@ open class Object3D(
     private var uLightSpecularHandle : Int = 0
     private var uLightAttenuationHandle : Int = 0
     private var uMaterialShininessHandle : Int = 0
+    private var uTextureContributionHandle : Int = 0
+    private var uMaterialContributionHandle : Int = 0
+    private var uMaterialHandle : Int = 0
+    private var uTextureHandle : Int = 0
 
     private fun initBuffers(){
         GLES30.glGenVertexArrays(1, VAO, 0)
@@ -205,6 +229,12 @@ open class Object3D(
         GLRenderer.checkGLError("init buffers")
     }
 
+    private fun initTextures(){
+        GLES30.glGenTextures(1, textures, 0)
+        GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, textures[0])
+        GLUtils.texImage2D(GLES30.GL_TEXTURE_2D, 0 , materialBitmap, 0)
+    }
+
     fun draw(mvpMatrix: FloatArray) {
         GLES30.glUseProgram(glProgramId)
 
@@ -248,6 +278,20 @@ open class Object3D(
         uLightAttenuationHandle = GLES30.glGetUniformLocation(glProgramId, "lightAttenuation")
         GLES30.glUniform3fv(uLightAttenuationHandle, 1, GLRenderer.lightAttenuation, 0)
 
-        Log.d("GL_DEBUG","Uniforms: $uEyePositionHandle $uLightPositionHandle $uLightSpecularHandle $uLightDiffuseHandle $uLightAmbientHandle $uMaterialSpecularHandle $uMaterialDiffuseHandle $uMaterialAmbientHandle $uMaterialShininessHandle $uLightAmbientHandle")
+        uMaterialContributionHandle = GLES30.glGetUniformLocation(glProgramId, "materialContribution")
+        GLES30.glUniform1f(uMaterialContributionHandle, GLRenderer.materialContribution)
+        uTextureContributionHandle = GLES30.glGetUniformLocation(glProgramId, "textureContribution")
+        GLES30.glUniform1f(uTextureContributionHandle, GLRenderer.textureContribution)
+
+        GLES30.glActiveTexture(GLES30.GL_TEXTURE0)
+        GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, textures[0]);
+
+        uMaterialHandle = GLES30.glGetUniformLocation(glProgramId, "materialTexture")
+        GLES30.glUniform1i(uMaterialHandle, 0)
+
+        Log.d("GL_DEBUG","Uniforms: $uEyePositionHandle $uLightPositionHandle $uLightSpecularHandle " +
+                "$uLightDiffuseHandle $uLightAmbientHandle $uMaterialSpecularHandle $uMaterialDiffuseHandle " +
+                "$uMaterialAmbientHandle $uMaterialShininessHandle $uLightAmbientHandle $uTextureContributionHandle" +
+                "$uMaterialContributionHandle $uMaterialHandle")
     }
 }

@@ -45,14 +45,14 @@ class MainActivity : AppCompatActivity() {
             glView.updateLightingModel()
         }
 
-        spinnerLight.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, listOf("Ламберт", "Фонг"));
+        spinnerLight.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, listOf("Ламберт", "Фонг", "Фонг + текстуры"));
         spinnerLight.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 (p0?.getChildAt(0) as TextView?)?.setTextColor(Color.WHITE)
                 when(p0?.selectedItemPosition){
                     0 -> GLRenderer.lightingMode = LightingMode.Lambert
                     1 -> GLRenderer.lightingMode = LightingMode.Phong
-                    2 -> GLRenderer.lightingMode = LightingMode.Lambert
+                    2 -> GLRenderer.lightingMode = LightingMode.TexturePhong
                 }
                 glView.updateLightingModel()
             }
