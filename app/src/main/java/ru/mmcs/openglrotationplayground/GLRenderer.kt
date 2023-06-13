@@ -109,7 +109,7 @@ class GLRenderer(private val context: Context) : GLSurfaceView.Renderer {
         var lightStrength = 0.0f
 
         val eyePosition = floatArrayOf(0f, 2f, 8f)
-        val lightPosition = floatArrayOf(2f, 2f, 4f)
+        val lightPosition = floatArrayOf(2f, 2f, 2f)
 
         val lightSpecular = floatArrayOf(1f, 1f, 1f, 1f)
         val lightDiffuse = floatArrayOf(1f, 1f, 1f, 1f)
