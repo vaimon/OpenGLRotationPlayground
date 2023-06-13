@@ -28,22 +28,42 @@ class GLRenderer(private val context: Context) : GLSurfaceView.Renderer {
                 context,
                 Point(1f, -0.5f, 0f),
                 Material(
+                    ambient = floatArrayOf(0.97f, 0.84f, 0.12f, 1f),
                     diffuse = floatArrayOf(0.97f, 0.84f, 0.12f, 1f)
                 )
             )
         )
-        sceneShapes.add(Torus3D(context, Point(1f, 1f, 0f), Material(diffuse = floatArrayOf(0.97f, 0.24f, 0.12f, 1f))))
+        sceneShapes.add(
+            Torus3D(
+                context,
+                Point(1f, 1f, 0f),
+                Material(
+                    ambient = floatArrayOf(0.97f, 0.24f, 0.12f, 1f),
+                    diffuse = floatArrayOf(0.97f, 0.24f, 0.12f, 1f),
+                )
+            )
+        )
         sceneShapes.add(
             Cube3D(
                 context,
                 Point(0.5f, -0.5f, 0f),
                 Material(
-                    diffuse = floatArrayOf(0.64f, 0.64f, 0.69f, 1f)
+                    ambient = floatArrayOf(0.64f, 0.64f, 0.69f, 1f),
+                    diffuse = floatArrayOf(0.64f, 0.64f, 0.69f, 1f),
                 )
 
             )
         )
-        sceneShapes.add(Cube3D(context, Point(1.5f, -0.5f, 0f), Material(diffuse = floatArrayOf(0.78f, 0.43f, 0f, 1f))))
+        sceneShapes.add(
+            Cube3D(
+                context,
+                Point(1.5f, -0.5f, 0f),
+                Material(
+                    ambient = floatArrayOf(0.78f, 0.43f, 0f, 1f),
+                    diffuse = floatArrayOf(0.78f, 0.43f, 0f, 1f),
+                )
+            )
+        )
     }
 
     override fun onSurfaceChanged(p0: GL10?, width: Int, height: Int) {
@@ -106,14 +126,13 @@ class GLRenderer(private val context: Context) : GLSurfaceView.Renderer {
         var shadingMode = ShadingMode.Phong
         var lightingMode = LightingMode.Phong
         var attenuation = 0.0f
-        var lightStrength = 0.0f
 
         val eyePosition = floatArrayOf(0f, 2f, 8f)
         val lightPosition = floatArrayOf(2f, 2f, 2f)
 
         val lightSpecular = floatArrayOf(1f, 1f, 1f, 1f)
         val lightDiffuse = floatArrayOf(1f, 1f, 1f, 1f)
-        val lightAmbient = floatArrayOf(1f, 1f, 1f, 1f)
+        var lightAmbient = floatArrayOf(0.5f, 0.5f, 0.5f, 1f)
 
         fun loadShader(type: Int, shaderCode: String): Int {
             val id = GLES30.glCreateShader(type).also { shader ->

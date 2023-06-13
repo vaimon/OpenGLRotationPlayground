@@ -63,7 +63,9 @@ class MainActivity : AppCompatActivity() {
 
         sbStrength.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                GLRenderer.lightStrength = (p0?.progress?.toFloat() ?: 0f) / 100f
+                val ambientStrength = (p0?.progress?.toFloat() ?: 0f) / 100f
+                GLRenderer.lightAmbient = floatArrayOf(ambientStrength, ambientStrength, ambientStrength, 1f)
+                glView.requestRender()
             }
 
             override fun onStartTrackingTouch(p0: SeekBar?) {

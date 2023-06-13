@@ -5,5 +5,5 @@ in vec4 vColor;
 
 out vec4 fragColor;
 void main() {
-    fragColor = vColor + vec4(vTextureCoordinate * 0.0001, 0.0, 0.0);
+    fragColor = vColor + vec4(vTextureCoordinate * 0.0000001, 0.0, 0.0);
 }
