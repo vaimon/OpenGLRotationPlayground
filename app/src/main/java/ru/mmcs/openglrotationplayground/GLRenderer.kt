@@ -28,19 +28,18 @@ class GLRenderer(private val context: Context) : GLSurfaceView.Renderer {
                 context,
                 Point(1f, 0f, 0f),
                 Material(
-                    ambient = floatArrayOf(0.97f, 0.84f, 0.12f, 1f),
-                    diffuse = floatArrayOf(0.97f, 0.84f, 0.12f, 1f)
+                    color = floatArrayOf(0.97f, 0.84f, 0.12f, 1f),
+                    texturePath = "textures/1.png"
                 )
             )
         )
         sceneShapes.add(
-            Sphere3D(
+            Torus3D(
                 context,
-                Point(1f, 1.25f, 0f),
+                Point(1f, 1.5f, 0f),
                 Material(
-                    ambient = floatArrayOf(0.97f, 0.24f, 0.12f, 1f),
-                    diffuse = floatArrayOf(0.97f, 0.24f, 0.12f, 1f),
-                    materialPath = "textures/rock.jpg"
+                    color = floatArrayOf(0.97f, 0.24f, 0.12f, 1f),
+                    materialPath = "textures/rock.jpg",
                 )
             )
         )
@@ -49,8 +48,8 @@ class GLRenderer(private val context: Context) : GLSurfaceView.Renderer {
                 context,
                 Point(0.5f, 0f, 0f),
                 Material(
-                    ambient = floatArrayOf(0.64f, 0.64f, 0.69f, 1f),
-                    diffuse = floatArrayOf(0.64f, 0.64f, 0.69f, 1f),
+                    color = floatArrayOf(0.64f, 0.64f, 0.69f, 1f),
+                    texturePath = "textures/2.png"
                 )
 
             )
@@ -60,8 +59,8 @@ class GLRenderer(private val context: Context) : GLSurfaceView.Renderer {
                 context,
                 Point(1.5f, 0f, 0f),
                 Material(
-                    ambient = floatArrayOf(0.78f, 0.43f, 0f, 1f),
-                    diffuse = floatArrayOf(0.78f, 0.43f, 0f, 1f),
+                    color = floatArrayOf(0.78f, 0.43f, 0f, 1f),
+                    texturePath = "textures/3.png"
                 )
             )
         )

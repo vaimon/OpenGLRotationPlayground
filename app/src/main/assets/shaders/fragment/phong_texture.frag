@@ -7,6 +7,7 @@ in vec3 vPosition;
 uniform vec3 eyePosition;
 uniform vec3 lightPosition;
 
+uniform vec4 materialColor;
 uniform vec4 materialAmbient;
 uniform vec4 materialDiffuse;
 uniform vec4 materialSpecular;
@@ -37,6 +38,7 @@ void main() {
     float distance = length(lightPosition - vPosition);
     float attenuation = 1.0 / (lightAttenuation.x + lightAttenuation.y * distance + lightAttenuation.z * pow(distance, 2.0));
 
-    vec4 vColor = ambient + attenuation * (diffuse + specular);
-    fragColor = vColor*0.000001 + texture(materialTexture, vTextureCoordinate);
+    vec4 lighting = ambient + attenuation * (diffuse + specular);
+    vec4 alphaTexture = texture(textureTexture, vTextureCoordinate);
+    fragColor = lighting * vec4(mix(mix(materialColor, texture(materialTexture, vTextureCoordinate), materialContribution).rgb, alphaTexture.rgb, alphaTexture.a * textureContribution), 1.0);
 }

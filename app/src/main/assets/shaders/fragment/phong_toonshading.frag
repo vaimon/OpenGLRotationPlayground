@@ -11,6 +11,7 @@ uniform vec4 materialAmbient;
 uniform vec4 materialDiffuse;
 uniform vec4 materialSpecular;
 uniform float materialShininess;
+uniform vec4 materialColor;
 
 uniform vec4 lightAmbient;
 uniform vec4 lightDiffuse;
@@ -31,5 +32,5 @@ void main() {
         clr = diffuse;
     else
         clr = diffuse * 1.3;
-    fragColor = clr + vec4(vTextureCoordinate * 0.00000001, 0.0, 0.0);
+    fragColor = clr * materialColor + vec4(vTextureCoordinate * 0.00000001, 0.0, 0.0);
 }

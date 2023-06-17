@@ -11,6 +11,7 @@ uniform vec4 materialAmbient;
 uniform vec4 materialDiffuse;
 uniform vec4 materialSpecular;
 uniform float materialShininess;
+uniform vec4 materialColor;
 
 uniform vec4 lightAmbient;
 uniform vec4 lightDiffuse;
@@ -33,5 +34,5 @@ void main() {
     float attenuation = 1.0 / (lightAttenuation.x + lightAttenuation.y * distance + lightAttenuation.z * pow(distance, 2.0));
 
     vec4 vColor = ambient + attenuation * (diffuse + specular);
-    fragColor = vColor + vec4(vTextureCoordinate * 0.000001, 0.0, 0.0);
+    fragColor = vColor * materialColor + vec4(vTextureCoordinate * 0.000001, 0.0, 0.0);
 }

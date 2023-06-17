@@ -52,7 +52,7 @@ void main() {
     //    vec3 rotatedNormale = mat3(transpose(inverse(normaleRotation))) * vertexNormale;
 
     gl_Position = uMVPMatrix * vec4(position, 1.0);
-    vTextureCoordinate = vertexTextureCoords;
+    vTextureCoordinate = vec2(vertexTextureCoords.x, 1.0 - vertexTextureCoords.y);
 
     vNormale = rotatedNormale;
     vPosition = vertexPosition;
