@@ -34,12 +34,13 @@ class GLRenderer(private val context: Context) : GLSurfaceView.Renderer {
             )
         )
         sceneShapes.add(
-            Torus3D(
+            Sphere3D(
                 context,
-                Point(1f, 1f, 0f),
+                Point(1f, 1.25f, 0f),
                 Material(
                     ambient = floatArrayOf(0.97f, 0.24f, 0.12f, 1f),
                     diffuse = floatArrayOf(0.97f, 0.24f, 0.12f, 1f),
+                    materialPath = "textures/rock.jpg"
                 )
             )
         )
