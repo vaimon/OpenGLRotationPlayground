@@ -55,5 +55,5 @@ void main() {
     vTextureCoordinate = vec2(vertexTextureCoords.x, 1.0 - vertexTextureCoords.y);
 
     vNormale = rotatedNormale;
-    vPosition = vertexPosition;
+    vPosition = position;
 }

@@ -55,5 +55,5 @@ void main() {
     vTextureCoordinate = vertexTextureCoords;
 
     vNormale = rotatedNormale;
-    vPosition = vertexPosition;
+    vPosition = position;
 }
